@@ -1,5 +1,7 @@
 @extends('admin.layouts.main')
 
+@section('title')Админ Панель@endsection
+
 @section('content')
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">

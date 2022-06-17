@@ -12,7 +12,7 @@ class StoreCategoryController extends Controller
     public function __invoke(StoreRequest $request)
     {
         $data = $request->validated();
-        Category::firstOrCreate($data);
+        Category::firstOrCreate($data); // Уникальные данные
         return redirect()->route('admin.category.index');
     }
 

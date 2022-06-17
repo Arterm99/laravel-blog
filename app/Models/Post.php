@@ -12,4 +12,9 @@ class Post extends Model
     // Привязка к таблицам (прописываем, как в миграциях)
     protected $table = 'posts';
     protected $guarded = false;
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'post_tags', 'post_id', 'tag_id');
+    }
 }

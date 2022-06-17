@@ -12,7 +12,7 @@ class IndexCategoryController extends Controller
     {
         $categories = Category::all();
         // compact позволяет сделать доступными любые массивы, данные, аналогичен массиву: 'table' => $table
-        return view('admin.categories.index', compact( 'categories'));
+        return view('admin.category.index', compact( 'categories'));
     }
 
 }

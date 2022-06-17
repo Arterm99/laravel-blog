@@ -1,10 +1,11 @@
 @extends('layouts.main')
 
+@section('title')Главная страница@endsection
 
 @section('content')
 <main class="blog">
     <div class="container">
-        <h1 class="edica-page-title" data-aos="fade-up">Blog</h1>
+        <h1 class="edica-page-title" data-aos="fade-up">Мой Первый Блог</h1>
         <section class="featured-posts-section">
             <div class="row">
                 <div class="col-md-4 fetured-post blog-post" data-aos="fade-right">

@@ -29,7 +29,7 @@
                 <!-- Small boxes (Stat box) -->
                 <div class="row">
                     <div class="col-12">
-                        <form action=" {{ route('admin.user.update', $user->id) }}" method="POST" class="w-25">
+                        <form action="{{ route('admin.user.update', $user->id) }}" method="POST" class="w-25">
                             @csrf
                             @method('PATCH')
                             <div class="form-group">
@@ -61,7 +61,7 @@
 
                             <!--Добавляем скрытое поле-->
                             <div class="form-group w-50">
-                                <input type="hidden" name="user_id" value="{{$user->id }}">
+                                <input type="hidden" name="user_id" value="{{ $user->id }}">
                             </div>
                             <input type="submit" class="btn btn-primary" value="Обновить">
                         </form>

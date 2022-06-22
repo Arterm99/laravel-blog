@@ -47,7 +47,9 @@ Route::group(['namespace' => 'Main'], function () {
     Route::get('/', [IndexController::class, '__invoke']);
 });
 
-Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function() {
+
+// auth - проверяет, авторизован ли пользователь, далее проверка на "админство"
+Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['auth', 'admin', 'verified']], function() {
     Route::group(['namespace' => 'Main'], function () {
         Route::get('/', [IndexAdminController::class, '__invoke']);
     });
@@ -82,7 +84,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function() {
         Route::delete('/{tag}', [DeleteTagController::class, '__invoke'])->name('admin.tag.delete');
     });
 
-    Route::group(['namespace' => 'USer', 'prefix' => 'users'], function () {
+    Route::group(['namespace' => 'User', 'prefix' => 'users'], function () {
         Route::get('/', [IndexUserController::class, '__invoke'])->name('admin.user.index');
         Route::get('/create', [CreateUserController::class, '__invoke'])->name('admin.user.create');
         Route::post('/', [StoreUserController::class, '__invoke'])->name('admin.user.store');
@@ -94,5 +96,5 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function() {
 
 });
 
-
-Auth::routes();
+// Создали имплементацию 28 урок и отправляем письмо с подтверждением регистрации на почту
+Auth::routes(['verify' => true]);

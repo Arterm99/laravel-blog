@@ -2,12 +2,16 @@
 
 namespace App\Models;
 
+use App\Notifications\SendVerifyWithQueueNotification;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+
+// Создали имплементацию 28 урок и отправляем письмо с подтверждением регистрации на почту
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable, SoftDeletes;
 
@@ -25,6 +29,7 @@ class User extends Authenticatable
     }
 
     /**
+     * Атрибуты, которые можно массово присваивать.
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
@@ -47,6 +52,7 @@ class User extends Authenticatable
     ];
 
     /**
+     * Атрибуты, которые должны быть приведены.
      * The attributes that should be cast.
      *
      * @var array<string, string>
@@ -54,4 +60,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // 29 Урок. ОЧереди
+    public function sendEmailVerificationNotification()
+    {
+
+        // Подключаем созданный Notifications
+        $this->notify(new SendVerifyWithQueueNotification());
+    }
 }

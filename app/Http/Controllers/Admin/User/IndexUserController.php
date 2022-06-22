@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Post;
+namespace App\Http\Controllers\Admin\User;
 
 use App\Http\Controllers\Controller;
-use App\Models\Post;
+use App\Models\User;
 
-class IndexPostController extends BasePostController
+class IndexUserController extends Controller
 {
     public function __invoke()
     {
-        $posts = Post::all();
+        $users = User::all();
         // compact позволяет сделать доступными любые массивы, данные, аналогичен массиву: 'table' => $table
-        return view('admin.post.index', compact( 'posts'));
+        return view('admin.user.index', compact( 'users'));
     }
 
 }

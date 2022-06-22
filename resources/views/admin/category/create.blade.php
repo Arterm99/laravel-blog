@@ -1,6 +1,6 @@
 @extends('admin.layouts.main')
 
-@section('title')Сздать категорию@endsection
+@section('title')Создать категорию@endsection
 
 @section('content')
     <!-- Content Wrapper. Contains page content -->

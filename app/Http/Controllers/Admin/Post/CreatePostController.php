@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Tag;
 
-class CreatePostController extends Controller
+class CreatePostController extends BasePostController
 {
     public function __invoke()
     {

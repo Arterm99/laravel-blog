@@ -16,4 +16,11 @@ class Category extends Model
     // Привязка к таблицам (прописываем, как в миграциях)
     protected $table = 'categories';
     protected $guarded = false;
+
+    // Урок 38. Один ко многим
+    public function posts()
+    {
+        return $this->hasMany(Post::class, 'category_id', 'id');
+    }
+
 }

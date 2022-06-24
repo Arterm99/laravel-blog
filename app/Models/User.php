@@ -61,11 +61,22 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    // 29 Урок. ОЧереди
+    // Урок 29. ОЧереди
     public function sendEmailVerificationNotification()
     {
 
         // Подключаем созданный Notifications
         $this->notify(new SendVerifyWithQueueNotification());
+    }
+
+    // Урок 33. Получение лайков
+    public function LikedPosts()
+    {
+        return $this->belongsToMany(Post::class, 'post_user_likes', 'user_id', 'post_id');
+    }
+    // Урок 34. Получение комментариев
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'user_id', 'id');
     }
 }

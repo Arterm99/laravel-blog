@@ -29,7 +29,20 @@ use App\Http\Controllers\Admin\User\IndexUserController;
 use App\Http\Controllers\Admin\User\ShowUserController;
 use App\Http\Controllers\Admin\User\StoreUserController;
 use App\Http\Controllers\Admin\User\UpdateUserController;
+use App\Http\Controllers\Category\CategoryIndexController;
+use App\Http\Controllers\Category\Post\PostCategoryIndexController;
 use App\Http\Controllers\Main\IndexController;
+use App\Http\Controllers\Personal\Comment\CommentPersonalController;
+use App\Http\Controllers\Personal\Comment\DeleteCommentPersonalController;
+use App\Http\Controllers\Personal\Comment\EditCommentPersonalController;
+use App\Http\Controllers\Personal\Comment\UpdateCommentPersonalController;
+use App\Http\Controllers\Personal\Liked\DeleteLikedPersonalController;
+use App\Http\Controllers\Personal\Liked\LikedPersonalController;
+use App\Http\Controllers\Personal\Main\IndexPersonalController;
+use App\Http\Controllers\Post\Comment\CommentPostIndexController;
+use App\Http\Controllers\Post\Like\LikePostIndexController;
+use App\Http\Controllers\Post\PostIndexController;
+use App\Http\Controllers\Post\ShowPostIndexController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -43,15 +56,61 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+// MAin
 Route::group(['namespace' => 'Main'], function () {
-    Route::get('/', [IndexController::class, '__invoke']);
+    Route::get('/', [IndexController::class, '__invoke'])->name('main.index');
+});
+
+// guest
+Route::group(['namespace' => 'Post', 'prefix' => 'posts'], function () {
+    Route::get('/', [PostIndexController::class, '__invoke'])->name('post.index');
+    Route::get('/{post}', [ShowPostIndexController::class, '__invoke'])->name('post.show');
+
+
+    // Способ с отображением комментариев
+    // post/10/comments
+    Route::group(['nemespace' => 'Comment', 'prefix' => '{post}/comments'], function () {
+        Route::post('/', [CommentPostIndexController::class, '__invoke'])->name('post.comment.store');
+    });
+    Route::group(['nemespace' => 'Like', 'prefix' => '{post}/likes'], function () {
+        Route::post('/', [LikePostIndexController::class, '__invoke'])->name('post.like.store');
+    });
+});
+
+// Отображение категорий
+Route::group(['namespace' => 'Category', 'prefix' => 'categories'], function () {
+    Route::get('/', [CategoryIndexController::class, '__invoke'])->name('category.index');
+
+    Route::group(['nemespace' => 'Post', 'prefix' => '{category}/posts'], function () {
+        Route::get('/', [PostCategoryIndexController::class, '__invoke'])->name('category.post.index');
+    });
 });
 
 
+// personal
+Route::group(['namespace' => 'Personal', 'prefix' => 'personal', 'middleware' => ['auth', 'verified']], function() {
+    Route::group(['namespace' => 'Main', 'prefix' => 'main'], function () {
+        Route::get('/', [IndexPersonalController::class, '__invoke'])->name('personal.main.index');
+    });
+    Route::group(['namespace' => 'Liked', 'prefix' => 'likeds'], function () {
+        Route::get('/', [LikedPersonalController::class, '__invoke'])->name('personal.liked.index');
+        Route::delete('/{post}', [DeleteLikedPersonalController::class, '__invoke'])->name('personal.liked.delete');
+    });
+    Route::group(['namespace' => 'Comment', 'prefix' => 'comments'], function () {
+        Route::get('/', [CommentPersonalController::class, '__invoke'])->name('personal.comment.index');
+        Route::get('/{comment}/edit', [EditCommentPersonalController::class, '__invoke'])->name('personal.comment.edit');
+        Route::patch('/{comment}', [UpdateCommentPersonalController::class, '__invoke'])->name('personal.comment.update');
+        Route::delete('/{comment}', [DeleteCommentPersonalController::class, '__invoke'])->name('personal.comment.delete');
+    });
+});
+
+
+// admin
 // auth - проверяет, авторизован ли пользователь, далее проверка на "админство"
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['auth', 'admin', 'verified']], function() {
     Route::group(['namespace' => 'Main'], function () {
-        Route::get('/', [IndexAdminController::class, '__invoke']);
+        Route::get('/', [IndexAdminController::class, '__invoke'])->name('admin.main.index');
     });
 
     Route::group(['namespace' => 'Post', 'prefix' => 'posts'], function () {

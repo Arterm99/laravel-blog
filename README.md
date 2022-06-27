@@ -1,5 +1,5 @@
 <p align="center">
-    <h1 align="center">First blog"</h1>
+    <h1 align="center">"First blog"</h1>
     </p>
 
 <p>Блог с админ панелью, возможностью добавлять, редактировать и удалять посты, ставить лайки</p>
